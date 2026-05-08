@@ -1,0 +1,21 @@
+{
+  "name": "remindy",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Birthday reminder app - self-hosted, no database, JSON storage",
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "scripts": {
+    "dev": "concurrently -n client,server -c cyan,yellow \"npm run dev -w client\" \"tsx server/src/index.ts\"",
+    "server": "tsx server/src/index.ts",
+    "build": "npm run build -w client && npm run build -w server",
+    "lint": "npm run lint -w client && npm run lint -w server",
+    "test": "npm run test -w client && npm run test -w server"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0",
+    "vite": "^8.0.8"
+  }
+}

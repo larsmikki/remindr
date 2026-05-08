@@ -1,0 +1,31 @@
+node_modules
+client/dist
+dist-server
+.git
+.gitignore
+*.md
+.vscode
+.idea
+*.log
+coverage
+
+# Environment files
+.env
+.env.*
+
+# Test files
+*.test.ts
+*.spec.ts
+__tests__
+test/
+
+# IDE files
+*.swp
+*.swo
+*~
+
+# Docker files (we build the image ourselves)
+Dockerfile
+docker-compose.yml
+.dockerignore
+

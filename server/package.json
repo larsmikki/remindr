@@ -1,0 +1,22 @@
+{
+  "name": "remindy-server",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "esbuild src/index.ts --bundle --platform=node --target=node20 --format=esm --outfile=../dist-server/index.js",
+    "start": "NODE_ENV=production node ../dist-server/index.js",
+    "lint": "eslint src",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.4",
+    "@types/node": "^24.12.0",
+    "esbuild": "^0.27.5",
+    "eslint": "^9.39.4",
+    "globals": "^17.4.0",
+    "tsx": "^4.19.3",
+    "typescript": "~5.9.3",
+    "vitest": "^4.1.4"
+  }
+}
