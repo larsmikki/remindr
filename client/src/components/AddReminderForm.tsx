@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useTheme } from '@/contexts/ThemeContext'
 import { DEFAULT_ICON } from '@/lib/dateIcons'
 import IconPicker from '@/components/IconPicker'
+import { Button, Input, Surface } from '@/components/ui'
 
 interface Props {
   existingTags: string[]
@@ -27,6 +28,7 @@ export default function AddReminderForm({ existingTags, onSave, onCancel }: Prop
   const [error, setError] = useState('')
 
   const effectiveDate = yearKnown ? date : dayMonthToIso(dayMonth)
+  const unselectedExisting = existingTags.filter(t => !selectedTags.includes(t))
 
   const toggleYearKnown = () => {
     if (yearKnown) {
@@ -55,7 +57,10 @@ export default function AddReminderForm({ existingTags, onSave, onCancel }: Prop
 
   const addNewTag = () => {
     const trimmed = newTag.trim()
-    if (!trimmed || selectedTags.includes(trimmed)) { setNewTag(''); return }
+    if (!trimmed || selectedTags.includes(trimmed)) {
+      setNewTag('')
+      return
+    }
     setSelectedTags(prev => [...prev, trimmed])
     setNewTag('')
   }
@@ -64,52 +69,46 @@ export default function AddReminderForm({ existingTags, onSave, onCancel }: Prop
     e.preventDefault()
     setError('')
     const trimmed = name.trim()
-    if (!trimmed || !effectiveDate) { setError('Please fill in all fields'); return }
-    if (yearKnown && isNaN(new Date(date).getTime())) { setError('Invalid date'); return }
+    if (!trimmed || !effectiveDate) {
+      setError('Fill in all fields')
+      return
+    }
+    if (yearKnown && isNaN(new Date(date).getTime())) {
+      setError('Invalid date')
+      return
+    }
     onSave(trimmed, effectiveDate, icon, selectedTags)
   }
 
-  const inputStyle = (hasError = false) => ({
-    background: theme.surface2,
-    border: `1px solid ${hasError ? '#ef4444' : theme.border}`,
-    color: theme.text,
-  })
-
-  const unselectedExisting = existingTags.filter(t => !selectedTags.includes(t))
-
   return (
-    <div className="mb-5 rounded-xl p-4" style={{ background: theme.surface, border: `1px solid ${theme.accent}40` }}>
+    <Surface className="mb-5 p-4 rounded-xl" style={{ borderColor: `${theme.accent}40`, boxShadow: 'var(--shadow-card-soft)' }}>
       <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-
-        {/* Name */}
-        <input
+        <Input
           autoFocus
           value={name}
           onChange={e => { setName(e.target.value); setError('') }}
           placeholder="Name"
-          className="w-full px-3 py-2.5 text-sm rounded-lg outline-none placeholder:opacity-40"
-          style={inputStyle(!!error)}
+          invalid={!!error}
         />
 
-        {/* Date + year-unknown toggle on one row */}
         <div className="flex gap-2">
           {yearKnown ? (
-            <input
+            <Input
               type="date"
               value={date}
               onChange={e => { setDate(e.target.value); setError('') }}
-              className="flex-1 px-3 py-2.5 text-sm rounded-lg outline-none"
-              style={inputStyle(!!error)}
+              className="flex-1"
+              invalid={!!error}
             />
           ) : (
-            <input
+            <Input
               type="text"
               value={dayMonth}
               onChange={handleDayMonthChange}
               placeholder="dd/mm"
               maxLength={5}
-              className="flex-1 px-3 py-2.5 text-sm rounded-lg outline-none placeholder:opacity-40"
-              style={inputStyle(!!error)}
+              className="flex-1"
+              invalid={!!error}
             />
           )}
           <button
@@ -117,7 +116,7 @@ export default function AddReminderForm({ existingTags, onSave, onCancel }: Prop
             role="switch"
             aria-checked={!yearKnown}
             onClick={toggleYearKnown}
-            className="flex items-center gap-1.5 px-2.5 py-2.5 text-sm rounded-lg whitespace-nowrap flex-shrink-0 transition-all"
+            className="flex items-center gap-1.5 px-2.5 py-2.5 text-sm rounded-lg whitespace-nowrap flex-shrink-0 transition-opacity hover:opacity-80"
             style={!yearKnown
               ? { background: `${theme.accent}20`, color: theme.accent, border: `1px solid ${theme.accent}40` }
               : { background: theme.surface2, color: theme.text2, border: `1px solid ${theme.border}` }
@@ -136,15 +135,12 @@ export default function AddReminderForm({ existingTags, onSave, onCancel }: Prop
           </button>
         </div>
 
-        {/* Icon picker */}
         <IconPicker value={icon} onChange={setIcon} />
 
-        {/* Tags */}
         {(existingTags.length > 0 || selectedTags.length > 0) && (
           <div className="space-y-1.5">
-            <p className="text-xs font-medium" style={{ color: theme.text2 }}>Tags</p>
+            <p className="text-xs font-medium text-text2">Tags</p>
 
-            {/* Selected tags */}
             {selectedTags.length > 0 && (
               <div className="flex flex-wrap gap-1.5">
                 {selectedTags.map(tag => (
@@ -156,7 +152,7 @@ export default function AddReminderForm({ existingTags, onSave, onCancel }: Prop
                     style={{ background: theme.accent, color: '#fff' }}
                   >
                     {tag}
-                    <svg className="h-2.5 w-2.5 opacity-70" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="h-2.5 w-2.5 opacity-70" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
                       <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd"/>
                     </svg>
                   </button>
@@ -164,7 +160,6 @@ export default function AddReminderForm({ existingTags, onSave, onCancel }: Prop
               </div>
             )}
 
-            {/* Unselected existing tags */}
             {unselectedExisting.length > 0 && (
               <div className="flex flex-wrap gap-1.5">
                 {unselectedExisting.map(tag => (
@@ -172,7 +167,7 @@ export default function AddReminderForm({ existingTags, onSave, onCancel }: Prop
                     key={tag}
                     type="button"
                     onClick={() => toggleTag(tag)}
-                    className="px-2.5 py-1 rounded-full text-xs font-medium transition-all hover:opacity-80"
+                    className="px-2.5 py-1 rounded-full text-xs font-medium transition-opacity hover:opacity-80"
                     style={{ background: `${theme.accent}18`, color: theme.accent }}
                   >
                     {tag}
@@ -183,48 +178,31 @@ export default function AddReminderForm({ existingTags, onSave, onCancel }: Prop
           </div>
         )}
 
-        {/* New tag input */}
         <div className="flex gap-2">
-          <input
+          <Input
             type="text"
             value={newTag}
             onChange={e => setNewTag(e.target.value)}
             onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); addNewTag() } }}
-            placeholder="Add a tag…"
-            className="flex-1 px-3 py-2 text-sm rounded-lg outline-none placeholder:opacity-40"
-            style={{ background: theme.surface2, border: `1px solid ${theme.border}`, color: theme.text }}
+            placeholder="Add a tag..."
+            className="flex-1 py-2"
           />
-          <button
-            type="button"
-            onClick={addNewTag}
-            className="px-3 py-2 text-sm font-semibold rounded-lg"
-            style={{ background: theme.surface2, color: theme.text2, border: `1px solid ${theme.border}` }}
-          >
+          <Button type="button" onClick={addNewTag} size="sm" className="self-stretch">
             Add
-          </button>
+          </Button>
         </div>
 
-        {error && <p className="text-xs text-red-400">{error}</p>}
+        {error && <p className="text-xs text-danger">{error}</p>}
 
-        {/* Actions */}
         <div className="flex gap-2 pt-1">
-          <button
-            type="submit"
-            className="flex-1 py-2.5 text-sm font-semibold rounded-lg text-white transition-opacity hover:opacity-90"
-            style={{ background: theme.accent }}
-          >
+          <Button type="submit" variant="primary" fullWidth>
             Save
-          </button>
-          <button
-            type="button"
-            onClick={onCancel}
-            className="flex-1 py-2.5 text-sm font-semibold rounded-lg transition-opacity hover:opacity-80"
-            style={{ background: theme.surface2, color: theme.text2, border: `1px solid ${theme.border}` }}
-          >
+          </Button>
+          <Button type="button" onClick={onCancel} fullWidth>
             Cancel
-          </button>
+          </Button>
         </div>
       </form>
-    </div>
+    </Surface>
   )
 }

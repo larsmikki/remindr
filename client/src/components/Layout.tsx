@@ -1,4 +1,5 @@
 import { Link, Outlet, useLocation } from 'react-router-dom'
+import { useEffect } from 'react'
 import { useReminders } from '@/contexts/RemindersContext'
 import { useTheme } from '@/contexts/ThemeContext'
 import Footer from '@/components/Footer'
@@ -13,6 +14,10 @@ export default function Layout() {
   const location = useLocation()
 
   const hasTags = reminders.some(r => r.tags && r.tags.length > 0)
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0 })
+  }, [location.pathname])
 
   const navItems = [
     { to: '/tags', label: 'Tags', icon: <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M17.707 9.293a1 1 0 010 1.414l-7 7a1 1 0 01-1.414 0l-7-7A.997.997 0 012 10V5a3 3 0 013-3h5c.256 0 .512.098.707.293l7 7zM5 6a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd"/></svg>, show: hasTags },
@@ -32,14 +37,7 @@ export default function Layout() {
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2.5 group" style={{ textDecoration: 'none' }}>
             <LogoMark />
-            <span
-              className="text-xl font-extrabold tracking-tight select-none"
-              style={{
-                background: 'linear-gradient(135deg, #c2410c 0%, #f59e0b 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-              }}
-            >
+            <span className="text-xl font-extrabold tracking-tight select-none gradient-text">
               Remindy
             </span>
           </Link>

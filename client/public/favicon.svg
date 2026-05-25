@@ -1,15 +1,14 @@
-<svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="remindy">
   <defs>
-    <linearGradient id="remindy-fav-bg" x1="0" y1="0" x2="1" y2="1" gradientUnits="objectBoundingBox">
-      <stop offset="0%" stop-color="#fb923c"/>
-      <stop offset="100%" stop-color="#ea580c"/>
-    </linearGradient>
-    <linearGradient id="remindy-fav-sh" x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox">
-      <stop offset="0%" stop-color="white" stop-opacity="0.22"/>
-      <stop offset="100%" stop-color="white" stop-opacity="0"/>
+    <linearGradient id="bg-remindy" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fbbf24"></stop>
+      <stop offset="100%" stop-color="#d97706"></stop>
     </linearGradient>
   </defs>
-  <rect width="36" height="36" rx="10" fill="url(#remindy-fav-bg)"/>
-  <rect width="36" height="20" rx="10" fill="url(#remindy-fav-sh)"/>
-  <path d="M18 27 C14 23 8 20 8 15 C8 11.5 10.5 9 13 9 C15 9 17 10.5 18 12 C19 10.5 21 9 23 9 C25.5 9 28 11.5 28 15 C28 20 22 23 18 27 Z" fill="white" opacity="0.95"/>
+  <rect width="64" height="64" rx="14.4" fill="url(#bg-remindy)"></rect>
+  <g color="#ffffff" transform="translate(6.399999999999999 6.399999999999999) scale(0.8)">
+    <g fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round">
+    <path d="M32 50 C21 42 12 34 12 24 C12 18 16 14 21 14 C26 14 29 16 32 20 C35 16 38 14 43 14 C48 14 52 18 52 24 C52 34 43 42 32 50 Z"></path>
+  </g>
+  </g>
 </svg>

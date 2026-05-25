@@ -1,286 +1,139 @@
 import { useTheme } from '@/contexts/ThemeContext'
+import { Button, Surface } from '@/components/ui'
 
-const apps = [
+const values = [
+  { label: '100% free forever', color: '#22c55e', icon: ShieldIcon },
+  { label: 'No ads or tracking', color: '#f59e0b', icon: LockIcon },
+  { label: 'Your data, your device', color: null, icon: DriveIcon },
+]
+
+const donateOptions = [
   {
-    name: 'Stashy',
-    description: 'Self-hosted media gallery for browsing photos and videos over LAN with album support.',
-    url: 'https://github.com/larsmikki/stashy',
-    icon: (
-      <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="stashy-bg" x1="0" y1="0" x2="1" y2="1" gradientUnits="objectBoundingBox">
-            <stop offset="0%" stopColor="#fb7185"/>
-            <stop offset="100%" stopColor="#be185d"/>
-          </linearGradient>
-          <linearGradient id="stashy-sh" x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox">
-            <stop offset="0%" stopColor="white" stopOpacity="0.22"/>
-            <stop offset="100%" stopColor="white" stopOpacity="0"/>
-          </linearGradient>
-        </defs>
-        <rect width="36" height="36" rx="10" fill="url(#stashy-bg)"/>
-        <rect width="36" height="20" rx="10" fill="url(#stashy-sh)"/>
-        <rect x="7" y="8" width="16" height="12" rx="2" fill="white" opacity="0.30"/>
-        <rect x="10" y="11" width="16" height="12" rx="2" fill="white" opacity="0.58"/>
-        <rect x="13" y="14" width="16" height="12" rx="2" fill="white" opacity="0.95"/>
-      </svg>
-    ),
+    title: 'Buy Me a Coffee',
+    sub: 'One-time donation, any amount',
+    url: 'https://www.buymeacoffee.com/remindy',
+    label: 'Buy Me a Coffee',
+    icon: CoffeeIcon,
   },
   {
-    name: 'Remindy',
-    description: 'Self-hosted birthday reminder app — no database, JSON storage, dark mode, 10+ themes.',
-    url: 'https://github.com/larsmikki/remindy',
-    icon: (
-      <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="remindy-bg" x1="0" y1="0" x2="1" y2="1" gradientUnits="objectBoundingBox">
-            <stop offset="0%" stopColor="#fb923c"/>
-            <stop offset="100%" stopColor="#ea580c"/>
-          </linearGradient>
-          <linearGradient id="remindy-sh" x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox">
-            <stop offset="0%" stopColor="white" stopOpacity="0.22"/>
-            <stop offset="100%" stopColor="white" stopOpacity="0"/>
-          </linearGradient>
-        </defs>
-        <rect width="36" height="36" rx="10" fill="url(#remindy-bg)"/>
-        <rect width="36" height="20" rx="10" fill="url(#remindy-sh)"/>
-        <g transform="translate(18,17) scale(0.72) translate(-18,-17)">
-          <circle cx="23" cy="15" r="7.5" fill="white" opacity="0.28"/>
-          <path d="M21 22.5 L23 25.5 L25 22.5Z" fill="white" opacity="0.28"/>
-          <circle cx="15" cy="15" r="8" fill="white" opacity="0.92"/>
-          <circle cx="18" cy="11" r="2.5" fill="white" opacity="0.38"/>
-          <path d="M13 23 L15 26.5 L17 23Z" fill="white" opacity="0.85"/>
-          <path d="M15 26.5 Q18 29 16 29" stroke="white" strokeWidth="1.5" strokeLinecap="round" fill="none" opacity="0.65"/>
-        </g>
-      </svg>
-    ),
-  },
-  {
-    name: 'Boxy',
-    description: 'Self-hosted game collection tracker with box art, condition ratings, and market values.',
-    url: 'https://github.com/larsmikki/boxy',
-    icon: (
-      <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="boxy-bg" x1="0" y1="0" x2="1" y2="1" gradientUnits="objectBoundingBox">
-            <stop offset="0%" stopColor="#a3e635"/>
-            <stop offset="100%" stopColor="#65a30d"/>
-          </linearGradient>
-          <linearGradient id="boxy-sh" x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox">
-            <stop offset="0%" stopColor="white" stopOpacity="0.22"/>
-            <stop offset="100%" stopColor="white" stopOpacity="0"/>
-          </linearGradient>
-        </defs>
-        <rect width="36" height="36" rx="10" fill="url(#boxy-bg)"/>
-        <rect width="36" height="20" rx="10" fill="url(#boxy-sh)"/>
-        <polygon points="18,7 28,13 18,19 8,13" fill="white" opacity="0.95"/>
-        <polygon points="28,13 28,25 18,31 18,19" fill="white" opacity="0.55"/>
-        <polygon points="8,13 18,19 18,31 8,25" fill="white" opacity="0.3"/>
-      </svg>
-    ),
-  },
-  {
-    name: 'Budgety',
-    description: 'Self-hosted annual budget planner with monthly breakdowns and running balances.',
-    url: 'https://github.com/larsmikki/budgety',
-    icon: (
-      <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="budgety-bg" x1="0" y1="0" x2="1" y2="1" gradientUnits="objectBoundingBox">
-            <stop offset="0%" stopColor="#4ade80"/>
-            <stop offset="100%" stopColor="#15803d"/>
-          </linearGradient>
-          <linearGradient id="budgety-sh" x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox">
-            <stop offset="0%" stopColor="white" stopOpacity="0.22"/>
-            <stop offset="100%" stopColor="white" stopOpacity="0"/>
-          </linearGradient>
-        </defs>
-        <rect width="36" height="36" rx="10" fill="url(#budgety-bg)"/>
-        <rect width="36" height="20" rx="10" fill="url(#budgety-sh)"/>
-        <rect x="9" y="21" width="4.5" height="7" rx="1" fill="white" opacity="0.7"/>
-        <rect x="15.75" y="15" width="4.5" height="13" rx="1" fill="white" opacity="0.85"/>
-        <rect x="22.5" y="9" width="4.5" height="19" rx="1" fill="white" opacity="1"/>
-      </svg>
-    ),
-  },
-  {
-    name: 'Linky',
-    description: 'Self-hosted bookmark launcher with a drag-and-drop grid and auto-fetched favicons.',
-    url: 'https://github.com/larsmikki/linky',
-    icon: (
-      <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="linky-bg" x1="0" y1="0" x2="1" y2="1" gradientUnits="objectBoundingBox">
-            <stop offset="0%" stopColor="#7dd3fc"/>
-            <stop offset="100%" stopColor="#1d4ed8"/>
-          </linearGradient>
-          <linearGradient id="linky-sh" x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox">
-            <stop offset="0%" stopColor="white" stopOpacity="0.22"/>
-            <stop offset="100%" stopColor="white" stopOpacity="0"/>
-          </linearGradient>
-        </defs>
-        <rect width="36" height="36" rx="10" fill="url(#linky-bg)"/>
-        <rect width="36" height="20" rx="10" fill="url(#linky-sh)"/>
-        <rect x="5" y="14" width="16" height="8" rx="4" fill="none" stroke="white" strokeWidth="2.5"/>
-        <rect x="15" y="14" width="16" height="8" rx="4" fill="none" stroke="white" strokeWidth="2.5" opacity="0.6"/>
-      </svg>
-    ),
-  },
-  {
-    name: 'Promptly',
-    description: 'Self-hosted AI prompt library with search, categories, themes, and 100+ built-in prompts.',
-    url: 'https://github.com/larsmikki/promptly',
-    icon: (
-      <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="promptly-bg" x1="0" y1="0" x2="1" y2="1" gradientUnits="objectBoundingBox">
-            <stop offset="0%" stopColor="#a78bfa"/>
-            <stop offset="100%" stopColor="#4f46e5"/>
-          </linearGradient>
-          <linearGradient id="promptly-sh" x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox">
-            <stop offset="0%" stopColor="white" stopOpacity="0.22"/>
-            <stop offset="100%" stopColor="white" stopOpacity="0"/>
-          </linearGradient>
-        </defs>
-        <rect width="36" height="36" rx="10" fill="url(#promptly-bg)"/>
-        <rect width="36" height="20" rx="10" fill="url(#promptly-sh)"/>
-        <line x1="9" y1="13" x2="27" y2="13" stroke="white" strokeWidth="2.2" strokeLinecap="round"/>
-        <line x1="9" y1="18" x2="22" y2="18" stroke="white" strokeWidth="2.2" strokeLinecap="round" opacity="0.8"/>
-        <line x1="9" y1="23" x2="18" y2="23" stroke="white" strokeWidth="2.2" strokeLinecap="round" opacity="0.55"/>
-      </svg>
-    ),
+    title: 'PayPal',
+    sub: 'Quick and secure donation',
+    url: 'https://paypal.me/remindy',
+    label: 'Donate via PayPal',
+    icon: WalletIcon,
   },
 ]
 
-const DonatePage = () => {
+export default function DonatePage() {
   const { theme } = useTheme()
-
-  const sectionStyle = {
-    background: theme.surface,
-    border: `1px solid ${theme.border}`,
-    borderRadius: '16px',
-    padding: '24px',
-    marginBottom: '20px',
-  }
 
   return (
     <div className="max-w-2xl mx-auto">
-      {/* Header */}
       <div className="mb-8">
-        <h1 className="text-2xl font-extrabold tracking-tight" style={{ color: theme.text }}>
-          Support Remindy
-        </h1>
-        <p className="text-sm mt-0.5" style={{ color: theme.text2 }}>
-          I build privacy-first, self-hosted tools — no subscriptions, no ads, no tracking.
-          Your data stays yours. If this saves you time, consider supporting the work.
+        <h1 className="text-2xl font-extrabold tracking-tight text-text">Support Remindy</h1>
+        <p className="text-sm mt-0.5 text-text2">
+          I build privacy-first, self-hosted tools with no subscriptions, no ads, and no tracking.
+          Your data stays yours.
         </p>
       </div>
 
-      {/* Values */}
-      <div style={{ ...sectionStyle }}>
-        <h2 className="text-base font-bold mb-1" style={{ color: theme.text }}>What you get</h2>
-        <p className="text-xs mb-4" style={{ color: theme.text2 }}>
-          Remindy is and always will be free, open source, and self-hosted.
-        </p>
+      <Surface className="p-6 mb-5">
+        <h2 className="text-base font-bold mb-1 text-text">What you get</h2>
+        <p className="text-xs mb-4 text-text2">Remindy stays small, open, and self-hosted.</p>
         <div className="flex items-center gap-3 flex-wrap">
-          {[
-            { icon: '🛡️', label: '100% Free Forever', color: '#22c55e' },
-            { icon: '🔒', label: 'No Ads or Tracking', color: '#f59e0b' },
-            { icon: '💾', label: 'Your data, your device', color: '#16a34a' },
-          ].map(({ icon, label, color }) => (
-            <div
-              key={label}
-              className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-semibold"
-              style={{ background: `${color}15`, color, border: `1px solid ${color}20` }}
-            >
-              <span>{icon}</span>
-              <span>{label}</span>
-            </div>
-          ))}
+          {values.map(({ label, color, icon: Icon }) => {
+            const badgeColor = color ?? theme.accent
+            return (
+              <div
+                key={label}
+                className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-semibold"
+                style={{ background: `${badgeColor}15`, color: badgeColor, border: `1px solid ${badgeColor}20` }}
+              >
+                <Icon />
+                <span>{label}</span>
+              </div>
+            )
+          })}
         </div>
-      </div>
+      </Surface>
 
-      {/* Donate options */}
-      <div style={sectionStyle}>
-        <h2 className="text-base font-bold mb-1" style={{ color: theme.text }}>Donate</h2>
-        <p className="text-xs mb-5" style={{ color: theme.text2 }}>
-          One-time donations via Buy Me a Coffee or PayPal. Any amount is appreciated.
-        </p>
-        <div className="grid grid-cols-2 gap-4">
-          {[
-            { emoji: '☕', title: 'Buy Me a Coffee', sub: 'One-time donation, any amount', url: 'https://www.buymeacoffee.com/remindy', label: '☕ Buy Me a Coffee' },
-            { emoji: '💙', title: 'PayPal', sub: 'Quick & secure donation', url: 'https://paypal.me/remindy', label: '💙 Donate via PayPal' },
-          ].map(({ emoji, title, sub, url, label }) => (
+      <Surface className="p-6 mb-5">
+        <h2 className="text-base font-bold mb-1 text-text">Donate</h2>
+        <p className="text-xs mb-5 text-text2">One-time donations through Buy Me a Coffee or PayPal.</p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {donateOptions.map(({ title, sub, url, label, icon: Icon }) => (
             <div
               key={title}
               className="flex flex-col items-center text-center gap-4 rounded-xl p-6"
               style={{ background: theme.surface2, border: `1px solid ${theme.border}` }}
             >
-              <div className="text-4xl">{emoji}</div>
-              <div>
-                <h3 className="text-sm font-bold mb-1" style={{ color: theme.text }}>{title}</h3>
-                <p className="text-xs" style={{ color: theme.text2 }}>{sub}</p>
+              <div className="h-9 w-9 flex items-center justify-center" style={{ color: theme.accent }}>
+                <Icon size="lg" />
               </div>
-              <button
-                onClick={() => window.open(url, '_blank')}
-                className="w-full py-2.5 text-sm font-semibold rounded-xl text-white transition-all hover:opacity-90"
-                style={{ background: theme.gradient, boxShadow: `0 4px 14px ${theme.accent}30` }}
+              <div>
+                <h3 className="text-base font-bold leading-snug text-text">{title}</h3>
+                <p className="text-xs mt-1 text-text2">{sub}</p>
+              </div>
+              <Button
+                type="button"
+                variant="primary"
+                size="lg"
+                fullWidth
+                onClick={() => window.open(url, '_blank', 'noopener,noreferrer')}
               >
                 {label}
-              </button>
+              </Button>
             </div>
           ))}
         </div>
-      </div>
+      </Surface>
 
-      {/* App Suite */}
-      <div style={sectionStyle}>
-        <div className="flex items-center justify-between mb-1">
-          <h2 className="text-base font-bold" style={{ color: theme.text }}>More apps</h2>
-          <a
-            href="https://github.com/larsmikki"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-1.5 text-xs font-semibold transition-opacity hover:opacity-70"
-            style={{ color: theme.accent }}
-          >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
-            </svg>
-            View on GitHub
-          </a>
-        </div>
-        <p className="text-xs mb-4" style={{ color: theme.text2 }}>
-          A suite of free, self-hosted tools built for privacy and simplicity.
-        </p>
-        <div className="flex flex-col gap-3">
-          {apps.map(({ name, description, url, icon }) => (
-            <a
-              key={name}
-              href={url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-3 rounded-xl px-3 py-2.5 transition-opacity hover:opacity-80"
-              style={{ background: theme.surface2, border: `1px solid ${theme.border}` }}
-            >
-              <div className="shrink-0">{icon}</div>
-              <div className="min-w-0">
-                <div className="text-sm font-bold leading-tight" style={{ color: theme.text }}>{name}</div>
-                <div className="text-xs mt-0.5 leading-snug" style={{ color: theme.text2 }}>{description}</div>
-              </div>
-            </a>
-          ))}
-        </div>
-      </div>
-
-      {/* Thank you */}
-      <div style={{ ...sectionStyle, marginBottom: 0 }}>
-        <h2 className="text-base font-bold mb-1" style={{ color: theme.text }}>Thank You!</h2>
-        <p className="text-xs" style={{ color: theme.text2 }}>
-          Every bit of support keeps Remindy free for everyone. Keep reminding!
-        </p>
-      </div>
+      <Surface className="p-6">
+        <h2 className="text-base font-bold mb-1 text-text">Thank you</h2>
+        <p className="text-xs text-text2">Every bit of support helps keep Remindy available for everyone.</p>
+      </Surface>
     </div>
   )
 }
 
-export default DonatePage
+function ShieldIcon() {
+  return (
+    <svg className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+      <path fillRule="evenodd" d="M10 2.25c.22 0 .437.045.64.132l5 2.143c.37.158.61.521.61.924v3.22c0 4.033-2.51 7.64-6.293 9.038a1 1 0 01-.694 0C5.48 16.31 2.97 12.702 2.97 8.67V5.45c0-.403.24-.766.61-.924l5-2.143c.203-.087.42-.132.64-.132z" clipRule="evenodd" />
+    </svg>
+  )
+}
+
+function LockIcon() {
+  return (
+    <svg className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+      <path fillRule="evenodd" d="M5 8V6a5 5 0 0110 0v2h.5A1.5 1.5 0 0117 9.5v6A1.5 1.5 0 0115.5 17h-11A1.5 1.5 0 013 15.5v-6A1.5 1.5 0 014.5 8H5zm2 0h6V6a3 3 0 10-6 0v2z" clipRule="evenodd" />
+    </svg>
+  )
+}
+
+function DriveIcon() {
+  return (
+    <svg className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+      <path d="M4 4.5A2.5 2.5 0 016.5 2h7A2.5 2.5 0 0116 4.5v11A2.5 2.5 0 0113.5 18h-7A2.5 2.5 0 014 15.5v-11zM7 5a1 1 0 000 2h6a1 1 0 100-2H7zm0 4a1 1 0 100 2h6a1 1 0 100-2H7zm3 6a1.25 1.25 0 100-2.5A1.25 1.25 0 0010 15z" />
+    </svg>
+  )
+}
+
+function CoffeeIcon({ size }: { size?: 'lg' }) {
+  const cls = size === 'lg' ? 'h-9 w-9' : 'h-4 w-4'
+  return (
+    <svg className={cls} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M4 8a1 1 0 011-1h11a1 1 0 011 1v1h1.5a3.5 3.5 0 010 7H17a5 5 0 01-5 5H9a5 5 0 01-5-5V8zm13 3v3h1.5a1.5 1.5 0 000-3H17zM6 9v7a3 3 0 003 3h3a3 3 0 003-3V9H6zM8 2.5a1 1 0 011 1V5a1 1 0 11-2 0V3.5a1 1 0 011-1zm4 0a1 1 0 011 1V5a1 1 0 11-2 0V3.5a1 1 0 011-1z" />
+    </svg>
+  )
+}
+
+function WalletIcon({ size }: { size?: 'lg' }) {
+  const cls = size === 'lg' ? 'h-9 w-9' : 'h-4 w-4'
+  return (
+    <svg className={cls} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M4 5.5A2.5 2.5 0 016.5 3H17a2 2 0 012 2v1h.5A2.5 2.5 0 0122 8.5v8A2.5 2.5 0 0119.5 19h-13A4.5 4.5 0 012 14.5v-9h2zm2.5-.5A.5.5 0 006 5.5V6h11V5H6.5zM4 8v6.5A2.5 2.5 0 006.5 17h13a.5.5 0 00.5-.5v-8a.5.5 0 00-.5-.5H4zm12.5 3H19v3h-2.5a1.5 1.5 0 010-3z" />
+    </svg>
+  )
+}

@@ -1,10 +1,11 @@
-import { useMemo, useState, useEffect } from 'react'
+import { useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { useReminders } from '@/contexts/RemindersContext'
 import { useTheme } from '@/contexts/ThemeContext'
 import TagBadge from '@/components/TagBadge'
 import ReminderCard from '@/components/ReminderCard'
 import EditReminderForm from '@/components/EditReminderForm'
+import { Button, useToast } from '@/components/ui'
 
 export default function TagsPage() {
   const { reminders, loading, updateReminder, updateTags, deleteReminder } = useReminders()
@@ -13,13 +14,7 @@ export default function TagsPage() {
   const activeTag = searchParams.get('tag')
   const [editId, setEditId] = useState<string | null>(null)
   const [confirmDeleteTag, setConfirmDeleteTag] = useState<string | null>(null)
-  const [toast, setToast] = useState<string | null>(null)
-
-  useEffect(() => {
-    if (!toast) return
-    const t = setTimeout(() => setToast(null), 2500)
-    return () => clearTimeout(t)
-  }, [toast])
+  const { addToast } = useToast()
 
   const tagMap = useMemo(() => {
     const map = new Map<string, typeof reminders>()
@@ -49,27 +44,18 @@ export default function TagsPage() {
     const affected = reminders.filter(r => r.tags?.includes(tag))
     await Promise.all(affected.map(r => updateTags(r.id, r.tags.filter(t => t !== tag))))
     setConfirmDeleteTag(null)
-    setToast(`Tag "${tag}" removed`)
+    addToast(`Tag "${tag}" removed`, 'success')
   }
 
   return (
     <div>
-      {toast && (
-        <div
-          className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 px-4 py-2.5 rounded-xl text-sm font-semibold shadow-lg"
-          style={{ background: theme.accent, color: '#fff' }}
-        >
-          {toast}
-        </div>
-      )}
-
       {editId && editReminder && (
         <EditReminderForm
           reminder={editReminder}
           existingTags={existingTags}
           onSave={(name, date, icon, tags) => {
             updateReminder(editId, { name, date, icon, tags })
-            setToast(`${name} updated`)
+            addToast(`${name} updated`, 'success')
             setEditId(null)
           }}
           onClose={() => setEditId(null)}
@@ -94,7 +80,7 @@ export default function TagsPage() {
             className="text-xs transition-opacity hover:opacity-70"
             style={{ color: theme.text2 }}
           >
-            Clear ×
+            Clear
           </button>
         </div>
       )}
@@ -138,25 +124,24 @@ export default function TagsPage() {
                     {confirmDeleteTag === tag ? (
                       <>
                         <span className="text-xs" style={{ color: theme.text2 }}>Remove tag?</span>
-                        <button
+                        <Button
                           onClick={() => deleteTagFromAll(tag)}
-                          className="px-2.5 py-1 rounded-lg text-xs font-semibold text-white"
-                          style={{ background: '#ef4444' }}
+                          variant="danger"
+                          size="sm"
                         >
                           Yes
-                        </button>
-                        <button
+                        </Button>
+                        <Button
                           onClick={() => setConfirmDeleteTag(null)}
-                          className="px-2.5 py-1 rounded-lg text-xs font-semibold"
-                          style={{ background: theme.surface2, color: theme.text2, border: `1px solid ${theme.border}` }}
+                          size="sm"
                         >
                           No
-                        </button>
+                        </Button>
                       </>
                     ) : (
                       <button
                         onClick={() => setConfirmDeleteTag(tag)}
-                        className="p-1.5 rounded-md hover:text-red-400 transition-colors"
+                        className="p-1.5 rounded-md transition-opacity hover:opacity-70"
                         style={{ color: theme.text2 }}
                         title="Remove tag"
                       >

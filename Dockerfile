@@ -33,7 +33,7 @@ USER nodejs
 ENV NODE_ENV=production
 EXPOSE 3080
 
-HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+HEALTHCHECK --interval=5m --timeout=3s --start-period=5s --retries=3 \
   CMD node --input-type=module -e "import http from 'http'; http.get('http://localhost:3081/api/birthdays',(r)=>process.exit(r.statusCode===200?0:1)).on('error',()=>process.exit(1))"
 
 CMD ["node", "dist-server/index.js"]

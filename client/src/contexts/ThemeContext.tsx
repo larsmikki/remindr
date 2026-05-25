@@ -24,9 +24,35 @@ export const THEMES: ThemeDefinition[] = [
     border: 'rgba(0,0,0,0.09)',
     text: '#09090b',
     text2: '#71717a',
-    accent: '#f97316',
-    gradient: 'linear-gradient(135deg, #fb923c 0%, #ea580c 100%)',
-    previewColors: ['#e8eaed', '#d1d5db', '#f97316'],
+    accent: '#f59e0b',
+    gradient: 'linear-gradient(135deg, #fbbf24 0%, #d97706 100%)',
+    previewColors: ['#e8eaed', '#d1d5db', '#f59e0b'],
+  },
+  {
+    name: 'Dark',
+    mode: 'dark',
+    bg: '#0a0a0f',
+    surface: '#111118',
+    surface2: '#1a1a28',
+    border: 'rgba(245,158,11,0.18)',
+    text: '#f0f0ff',
+    text2: '#8884a8',
+    accent: '#f59e0b',
+    gradient: 'linear-gradient(135deg, #fbbf24 0%, #d97706 100%)',
+    previewColors: ['#1a1a28', '#2d2845', '#f59e0b'],
+  },
+  {
+    name: 'Midnight',
+    mode: 'dark',
+    bg: '#050814',
+    surface: '#0d1117',
+    surface2: '#161b22',
+    border: 'rgba(6,182,212,0.15)',
+    text: '#e2f8ff',
+    text2: '#7d8ea0',
+    accent: '#06b6d4',
+    gradient: 'linear-gradient(135deg, #06b6d4 0%, #0284c7 100%)',
+    previewColors: ['#161b22', '#0d2a35', '#06b6d4'],
   },
   {
     name: 'Rainbow',
@@ -119,32 +145,6 @@ export const THEMES: ThemeDefinition[] = [
     gradient: 'linear-gradient(135deg, #343a40 0%, #495057 100%)',
     previewColors: ['#f1f3f5', '#e9ecef', '#dee2e6'],
   },
-  {
-    name: 'Dark',
-    mode: 'dark',
-    bg: '#0a0a0f',
-    surface: '#111118',
-    surface2: '#1a1a28',
-    border: 'rgba(249,115,22,0.18)',
-    text: '#f0f0ff',
-    text2: '#8884a8',
-    accent: '#f97316',
-    gradient: 'linear-gradient(135deg, #fb923c 0%, #ea580c 100%)',
-    previewColors: ['#1a1a28', '#2d2845', '#f97316'],
-  },
-  {
-    name: 'Midnight',
-    mode: 'dark',
-    bg: '#050814',
-    surface: '#0d1117',
-    surface2: '#161b22',
-    border: 'rgba(6,182,212,0.15)',
-    text: '#e2f8ff',
-    text2: '#7d8ea0',
-    accent: '#06b6d4',
-    gradient: 'linear-gradient(135deg, #06b6d4 0%, #0284c7 100%)',
-    previewColors: ['#161b22', '#0d2a35', '#06b6d4'],
-  },
 ]
 
 interface ThemeContextType {
@@ -176,6 +176,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     root.style.setProperty('--theme-text', theme.text)
     root.style.setProperty('--theme-text2', theme.text2)
     root.style.setProperty('--theme-accent', theme.accent)
+    root.style.setProperty('--theme-gradient', theme.gradient)
 
     const accentMatch = theme.accent.match(/#([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})/)
     if (accentMatch) {

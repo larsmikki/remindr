@@ -1,10 +1,11 @@
-import { useState, useMemo, useEffect } from 'react'
+import { useState, useMemo } from 'react'
 import { useReminders } from '@/contexts/RemindersContext'
 import { useTheme } from '@/contexts/ThemeContext'
 import { parseDateParts, daysUntil } from '@/lib/dateUtils'
 import AddReminderForm from '@/components/AddReminderForm'
 import EditReminderForm from '@/components/EditReminderForm'
 import ReminderCard from '@/components/ReminderCard'
+import { Button, Input, useToast } from '@/components/ui'
 
 const MONTH_LABELS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
 
@@ -16,13 +17,7 @@ export default function FrontPage() {
   const [search, setSearch]           = useState('')
   const [monthFilter, setMonthFilter] = useState<string | null>(null)
   const [editId, setEditId]           = useState<string | null>(null)
-  const [toast, setToast]             = useState<string | null>(null)
-
-  useEffect(() => {
-    if (!toast) return
-    const t = setTimeout(() => setToast(null), 2500)
-    return () => clearTimeout(t)
-  }, [toast])
+  const { addToast } = useToast()
 
   const existingTags = useMemo(() => {
     const tagSet = new Set<string>()
@@ -49,16 +44,6 @@ export default function FrontPage() {
 
   return (
     <div className="relative">
-      {/* Toast */}
-      {toast && (
-        <div
-          className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 px-4 py-2.5 rounded-xl text-sm font-semibold shadow-lg"
-          style={{ background: theme.accent, color: '#fff' }}
-        >
-          {toast}
-        </div>
-      )}
-
       {/* Edit modal */}
       {editId && editReminder && (
         <EditReminderForm
@@ -66,7 +51,7 @@ export default function FrontPage() {
           existingTags={existingTags}
           onSave={(name, date, icon, tags) => {
             updateReminder(editId, { name, date, icon, tags })
-            setToast(`${name} updated`)
+            addToast(`${name} updated`, 'success')
             setEditId(null)
           }}
           onClose={() => setEditId(null)}
@@ -83,10 +68,11 @@ export default function FrontPage() {
             </p>
           )}
         </div>
-        <button
+        <Button
+          type="button"
+          variant={showForm ? 'secondary' : 'primary'}
           onClick={() => { setShowForm(v => !v); setEditId(null) }}
-          className="flex items-center gap-1.5 px-4 py-2 text-sm font-semibold rounded-xl text-white transition-opacity hover:opacity-90 shadow-md"
-          style={{ background: showForm ? theme.text2 : theme.accent }}
+          style={showForm ? { color: theme.text } : undefined}
         >
           {showForm ? (
             <>
@@ -103,7 +89,7 @@ export default function FrontPage() {
               New Reminder
             </>
           )}
-        </button>
+        </Button>
       </div>
 
       {/* Add form */}
@@ -112,7 +98,7 @@ export default function FrontPage() {
           existingTags={existingTags}
           onSave={(name, date, icon, tags) => {
             addReminder({ name, date, icon, tags })
-            setToast(`${name} saved`)
+            addToast(`${name} saved`, 'success')
             setShowForm(false)
           }}
           onCancel={() => setShowForm(false)}
@@ -124,13 +110,13 @@ export default function FrontPage() {
         <svg className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 pointer-events-none" style={{ color: theme.text2 }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
         </svg>
-        <input
+        <Input
           type="text"
           value={search}
           onChange={e => setSearch(e.target.value)}
-          placeholder="Search…"
-          className="w-full pl-9 pr-4 py-2.5 text-sm rounded-xl outline-none placeholder:opacity-40"
-          style={{ background: theme.surface, border: `1px solid ${theme.border}`, color: theme.text }}
+          placeholder="Search..."
+          className="pl-9 pr-9 rounded-xl"
+          style={{ background: theme.surface }}
         />
         {search && (
           <button onClick={() => setSearch('')} className="absolute right-3 top-1/2 -translate-y-1/2" style={{ color: theme.text2 }}>
@@ -198,13 +184,14 @@ export default function FrontPage() {
             {reminders.length === 0 ? 'Add a birthday, anniversary, or any date worth remembering' : 'Try a different search or month'}
           </p>
           {reminders.length === 0 && (
-            <button
+            <Button
+              type="button"
+              variant="primary"
+              size="lg"
               onClick={() => setShowForm(true)}
-              className="px-6 py-3 text-sm font-semibold rounded-xl text-white shadow-lg hover:opacity-90"
-              style={{ background: theme.accent }}
             >
               Add your first date
-            </button>
+            </Button>
           )}
         </div>
       ) : (

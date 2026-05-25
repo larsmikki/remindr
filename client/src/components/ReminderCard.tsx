@@ -5,6 +5,7 @@ import TagBadge from '@/components/TagBadge'
 import { DEFAULT_ICON } from '@/lib/dateIcons'
 import { daysUntil, daysLabel, formatBirthday, ageFromDate } from '@/lib/dateUtils'
 import type { Reminder } from '@/types'
+import { Button } from '@/components/ui'
 
 interface Props {
   reminder: Reminder
@@ -29,15 +30,7 @@ export default function ReminderCard({ reminder: r, onEdit, onDelete }: Props) {
       style={{
         background:  theme.surface,
         border:      `1px solid ${isToday ? `${theme.accent}60` : theme.border}`,
-        boxShadow:   isToday ? `0 0 0 1px ${theme.accent}20` : undefined,
-      }}
-      onMouseEnter={e => {
-        e.currentTarget.style.borderColor = `${theme.accent}45`
-        e.currentTarget.style.boxShadow   = `0 4px 20px rgba(0,0,0,0.12), 0 0 0 1px ${theme.accent}20`
-      }}
-      onMouseLeave={e => {
-        e.currentTarget.style.borderColor = isToday ? `${theme.accent}60` : theme.border
-        e.currentTarget.style.boxShadow   = isToday ? `0 0 0 1px ${theme.accent}20` : ''
+        boxShadow:   isToday ? `0 0 0 1px ${theme.accent}20` : 'var(--shadow-card-soft)',
       }}
     >
       {/* Icon */}
@@ -90,20 +83,19 @@ export default function ReminderCard({ reminder: r, onEdit, onDelete }: Props) {
       {confirmDelete ? (
         <div className="flex items-center gap-1.5 flex-shrink-0">
           <span className="text-xs" style={{ color: theme.text2 }}>Delete?</span>
-          <button
+          <Button
             onClick={onDelete}
-            className="px-2.5 py-1 rounded-lg text-xs font-semibold text-white"
-            style={{ background: '#ef4444' }}
+            variant="danger"
+            size="sm"
           >
             Yes
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={() => setConfirmDelete(false)}
-            className="px-2.5 py-1 rounded-lg text-xs font-semibold"
-            style={{ background: theme.surface2, color: theme.text2, border: `1px solid ${theme.border}` }}
+            size="sm"
           >
             No
-          </button>
+          </Button>
         </div>
       ) : (
         <div
@@ -115,7 +107,7 @@ export default function ReminderCard({ reminder: r, onEdit, onDelete }: Props) {
               <path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
             </svg>
           </button>
-          <button onClick={() => setConfirmDelete(true)} className="p-1.5 rounded-md hover:text-red-400" style={{ color: theme.text2 }} title="Delete">
+          <button onClick={() => setConfirmDelete(true)} className="p-1.5 rounded-md hover:opacity-70" style={{ color: theme.text2 }} title="Delete">
             <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
             </svg>
