@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach } from 'vitest'
 import { writeFileSync, unlinkSync, existsSync } from 'fs'
 import { join } from 'path'
 import { tmpdir } from 'os'
-import { createStorage } from '../db/storage'
+import { createStorage } from '../src/db/storage'
 
 const tmpFile = join(tmpdir(), `remindy-test-${process.pid}.json`)
 

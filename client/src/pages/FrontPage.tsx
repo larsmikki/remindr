@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react'
 import { useReminders } from '@/contexts/RemindersContext'
 import { useTheme } from '@/contexts/ThemeContext'
-import { parseDateParts, daysUntil } from '@/lib/dateUtils'
+import { parseDateParts, daysUntil } from '@/utils/dateUtils'
 import AddReminderForm from '@/components/AddReminderForm'
 import EditReminderForm from '@/components/EditReminderForm'
 import ReminderCard from '@/components/ReminderCard'

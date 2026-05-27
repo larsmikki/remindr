@@ -1,9 +1,9 @@
 import { readFileSync, existsSync } from 'fs'
 import { writeFile } from 'fs/promises'
 import { join, isAbsolute } from 'path'
-import type { Reminder } from '../types'
-import { config } from '../config'
-import { logger } from '../logger'
+import type { Reminder } from '../types.js'
+import { config } from '../config.js'
+import { logger } from '../logger.js'
 
 export interface Storage {
   getAllReminders: () => Reminder[]

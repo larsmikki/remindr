@@ -33,3 +33,10 @@ coverage/
 # Tool-specific
 .gstack/
 .code-review-graph/
+
+# === Fleet structure baseline (shared/STRUCTURE.md §7) ===
+*.tsbuildinfo
+*.db
+cache/
+temp/
+test_album/

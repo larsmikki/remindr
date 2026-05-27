@@ -20,10 +20,11 @@ RUN addgroup --system --gid 1001 nodejs && \
     adduser --system --uid 1001 nodejs
 
 # Copy built artefacts
-COPY --from=builder /app/client/dist  /app/client/dist
-COPY --from=builder /app/dist-server  /app/dist-server
-COPY --from=builder /app/node_modules /app/node_modules
-COPY --from=builder /app/package.json /app/package.json
+COPY --from=builder /app/client/dist         /app/client/dist
+COPY --from=builder /app/server/dist         /app/server/dist
+COPY --from=builder /app/server/package.json /app/server/package.json
+COPY --from=builder /app/node_modules        /app/node_modules
+COPY --from=builder /app/package.json        /app/package.json
 
 # Data directory (volume mount point)
 RUN mkdir -p /app/data && chown -R nodejs:nodejs /app
@@ -34,6 +35,6 @@ ENV NODE_ENV=production
 EXPOSE 3080
 
 HEALTHCHECK --interval=5m --timeout=3s --start-period=5s --retries=3 \
-  CMD node --input-type=module -e "import http from 'http'; http.get('http://localhost:3081/api/birthdays',(r)=>process.exit(r.statusCode===200?0:1)).on('error',()=>process.exit(1))"
+  CMD node --input-type=module -e "import http from 'http'; http.get('http://localhost:3081/api/health',(r)=>process.exit(r.statusCode===200?0:1)).on('error',()=>process.exit(1))"
 
-CMD ["node", "dist-server/index.js"]
+CMD ["node", "server/dist/index.js"]

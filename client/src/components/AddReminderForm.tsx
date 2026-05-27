@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useTheme } from '@/contexts/ThemeContext'
-import { DEFAULT_ICON } from '@/lib/dateIcons'
+import { DEFAULT_ICON } from '@/utils/dateIcons'
 import IconPicker from '@/components/IconPicker'
 import { Button, Input, Surface } from '@/components/ui'
 

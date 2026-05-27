@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useTheme } from '@/contexts/ThemeContext'
-import { DEFAULT_ICON } from '@/lib/dateIcons'
+import { DEFAULT_ICON } from '@/utils/dateIcons'
 import IconPicker from '@/components/IconPicker'
 import type { Reminder } from '@/types'
 import { Button, Input, Modal } from '@/components/ui'

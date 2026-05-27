@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useTheme } from '@/contexts/ThemeContext'
-import { DATE_ICONS } from '@/lib/dateIcons'
+import { DATE_ICONS } from '@/utils/dateIcons'
 import { Input } from '@/components/ui'
 
 interface IconPickerProps {

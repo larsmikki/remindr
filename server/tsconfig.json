@@ -6,7 +6,9 @@
     "moduleResolution": "bundler",
     "strict": true,
     "skipLibCheck": true,
-    "outDir": "../dist-server"
+    "outDir": "dist",
+    "rootDir": "src"
   },
-  "include": ["src"]
+  "include": ["src"],
+  "exclude": ["tests", "node_modules"]
 }
