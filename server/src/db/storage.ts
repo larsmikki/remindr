@@ -25,27 +25,10 @@ export function createStorage(dataFile: string): Storage {
   const filePath = resolvePath(dataFile)
   let reminders: Reminder[] = []
 
-  // Load existing data — migrate from old birthdays.json if needed
   try {
-    let loadPath = filePath
-    if (!existsSync(filePath)) {
-      const legacyPath = resolvePath('data/birthdays.json')
-      if (existsSync(legacyPath)) {
-        logger.info('Migrating data from birthdays.json to reminders.json')
-        loadPath = legacyPath
-      }
-    }
-    if (existsSync(loadPath)) {
-      const content = readFileSync(loadPath, 'utf-8').trim()
-      const raw: any[] = content ? JSON.parse(content) : []
-      // Migrate old 'groups' field to 'tags'
-      reminders = raw.map((r: any) => {
-        if (r.groups !== undefined && r.tags === undefined) {
-          const { groups, ...rest } = r
-          return { ...rest, tags: groups }
-        }
-        return r
-      })
+    if (existsSync(filePath)) {
+      const content = readFileSync(filePath, 'utf-8').trim()
+      reminders = content ? JSON.parse(content) : []
     }
   } catch (err: unknown) {
     const e = err as NodeJS.ErrnoException

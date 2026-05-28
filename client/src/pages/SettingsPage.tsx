@@ -17,7 +17,7 @@ export default function SettingsPage() {
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
-    a.download = 'remindy-backup.json'
+    a.download = 'remindr-backup.json'
     a.click()
     URL.revokeObjectURL(url)
     addToast('Backup exported', 'success')
@@ -30,7 +30,7 @@ export default function SettingsPage() {
     reader.onload = async (event) => {
       try {
         const data = JSON.parse(event.target?.result as string)
-        const entries: Array<{ name?: string; date?: string; icon?: string }> = data.reminders ?? data.birthdays ?? []
+        const entries: Array<{ name?: string; date?: string; icon?: string }> = data.reminders ?? []
         for (const entry of entries) {
           if (entry.name && entry.date) {
             await api.createReminder({ name: entry.name, date: entry.date, icon: entry.icon })
@@ -51,12 +51,12 @@ export default function SettingsPage() {
     <div className="max-w-2xl mx-auto">
       <div className="mb-8">
         <h1 className="text-2xl font-extrabold tracking-tight text-text">Settings</h1>
-        <p className="text-sm mt-0.5 text-text2">Customize your Remindy experience.</p>
+        <p className="text-sm mt-0.5 text-text2">Customize your Remindr experience.</p>
       </div>
 
       <Surface className="p-6 mb-5">
         <h2 className="text-base font-bold mb-1 text-text">Themes</h2>
-        <p className="text-xs mb-5 text-text2">Choose how Remindy looks to you.</p>
+        <p className="text-xs mb-5 text-text2">Choose how Remindr looks to you.</p>
         <ThemePicker />
       </Surface>
 
@@ -69,7 +69,7 @@ export default function SettingsPage() {
         >
           <span>
             <span className="block text-sm font-semibold text-text">Demo mode</span>
-            <span className="block text-xs mt-0.5 text-text2">Show sample birthdays on the home page.</span>
+            <span className="block text-xs mt-0.5 text-text2">Show sample reminders on the home page.</span>
           </span>
           <Toggle
             checked={isDemoMode}

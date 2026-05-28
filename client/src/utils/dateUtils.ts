@@ -31,7 +31,7 @@ export function daysUntil(dateStr: string): number {
 }
 
 /** Format a date string as "Month Day" (e.g. "June 15"). */
-export function formatBirthday(dateStr: string): string {
+export function formatDate(dateStr: string): string {
   const parts = parseDateParts(dateStr)
   if (!parts) return dateStr
   const [, m, d] = parts
@@ -49,7 +49,8 @@ export function daysLabel(days: number): string {
   return `In ${Math.ceil(days / 30)} months`
 }
 
-/** Age a person is turning on their next occurrence of this date, or null if year is not meaningful. */
+/** Years elapsed on the next occurrence of this date (e.g. the age someone turns on
+ *  their next birthday), or null if the stored year is not meaningful. */
 export function ageFromDate(dateStr: string): number | null {
   const parts = parseDateParts(dateStr)
   if (!parts) return null

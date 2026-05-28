@@ -10,6 +10,6 @@ export interface Reminder {
 export interface Tag {
   id: string
   name: string
-  birthdayId: string
+  reminderId: string
   createdAt: number
 }

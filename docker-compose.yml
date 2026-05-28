@@ -1,16 +1,16 @@
 version: '3.8'
 
 services:
-  remindy:
-    image: larsmikki/remindy:latest
-    container_name: remindy
+  remindr:
+    image: larsmikki/remindr:latest
+    container_name: remindr
     ports:
       - "3080:3080"
     volumes:
-      - remindy-data:/app/data
+      - remindr-data:/app/data
     environment:
       - PORT=3080
-      - BIRTHDAYS_FILE=/app/data/birthdays.json
+      - REMINDERS_FILE=/app/data/reminders.json
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "wget", "-q", "--spider", "http://localhost:3080/api/health"]
@@ -20,4 +20,4 @@ services:
       start_period: 10s
 
 volumes:
-  remindy-data:
+  remindr-data:

@@ -1,11 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="remindy">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Remindr">
   <defs>
-    <linearGradient id="bg-remindy" x1="0" y1="0" x2="1" y2="1">
+    <linearGradient id="bg-logo" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="#fbbf24"></stop>
       <stop offset="100%" stop-color="#d97706"></stop>
     </linearGradient>
   </defs>
-  <rect width="64" height="64" rx="14.4" fill="url(#bg-remindy)"></rect>
+  <rect width="64" height="64" rx="14.4" fill="url(#bg-logo)"></rect>
   <g color="#ffffff" transform="translate(6.399999999999999 6.399999999999999) scale(0.8)">
     <g fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round">
     <path d="M32 50 C21 42 12 34 12 24 C12 18 16 14 21 14 C26 14 29 16 32 20 C35 16 38 14 43 14 C48 14 52 18 52 24 C52 34 43 42 32 50 Z"></path>

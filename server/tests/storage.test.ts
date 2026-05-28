@@ -4,7 +4,7 @@ import { join } from 'path'
 import { tmpdir } from 'os'
 import { createStorage } from '../src/db/storage'
 
-const tmpFile = join(tmpdir(), `remindy-test-${process.pid}.json`)
+const tmpFile = join(tmpdir(), `test-${process.pid}.json`)
 
 function fresh() {
   writeFileSync(tmpFile, '[]', 'utf-8')

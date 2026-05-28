@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import { parseDateParts, daysUntil, formatBirthday, daysLabel, ageFromDate } from './dateUtils'
+import { parseDateParts, daysUntil, formatDate, daysLabel, ageFromDate } from './dateUtils'
 
 afterEach(() => vi.useRealTimers())
 
@@ -45,19 +45,19 @@ describe('daysUntil', () => {
   })
 })
 
-// ── formatBirthday ────────────────────────────────────────────────────────────
+// ── formatDate ────────────────────────────────────────────────────────────────
 
-describe('formatBirthday', () => {
+describe('formatDate', () => {
   it('formats ISO date as "Month Day"', () => {
-    expect(formatBirthday('1990-06-15')).toBe('June 15')
+    expect(formatDate('1990-06-15')).toBe('June 15')
   })
 
   it('formats legacy slash date as "Month Day"', () => {
-    expect(formatBirthday('6/15/1990')).toBe('June 15')
+    expect(formatDate('6/15/1990')).toBe('June 15')
   })
 
   it('returns original string for invalid input', () => {
-    expect(formatBirthday('not-a-date')).toBe('not-a-date')
+    expect(formatDate('not-a-date')).toBe('not-a-date')
   })
 })
 

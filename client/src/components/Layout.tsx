@@ -5,7 +5,7 @@ import { useTheme } from '@/contexts/ThemeContext'
 import Footer from '@/components/Footer'
 
 const LogoMark = () => (
-  <img src="/favicon.svg" width={28} height={28} alt="Remindy" className="shrink-0" />
+  <img src="/favicon.svg" width={28} height={28} alt="Remindr" className="shrink-0" />
 )
 
 export default function Layout() {
@@ -38,7 +38,7 @@ export default function Layout() {
           <Link to="/" className="flex items-center gap-2.5 group" style={{ textDecoration: 'none' }}>
             <LogoMark />
             <span className="text-xl font-extrabold tracking-tight select-none gradient-text">
-              Remindy
+              Remindr
             </span>
           </Link>
 

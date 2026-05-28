@@ -1,7 +1,7 @@
 {
-  "name": "Remindy",
-  "short_name": "Remindy",
-  "description": "Birthday reminders — self-hosted, private, free",
+  "name": "Remindr",
+  "short_name": "Remindr",
+  "description": "Reminders for any date worth remembering — self-hosted, private, free",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0a0a0f",

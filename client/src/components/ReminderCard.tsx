@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useTheme } from '@/contexts/ThemeContext'
 import TagBadge from '@/components/TagBadge'
 import { DEFAULT_ICON } from '@/utils/dateIcons'
-import { daysUntil, daysLabel, formatBirthday, ageFromDate } from '@/utils/dateUtils'
+import { daysUntil, daysLabel, formatDate, ageFromDate } from '@/utils/dateUtils'
 import type { Reminder } from '@/types'
 import { Button } from '@/components/ui'
 
@@ -48,7 +48,7 @@ export default function ReminderCard({ reminder: r, onEdit, onDelete }: Props) {
         </div>
         <div className="flex items-center gap-1.5 mt-0.5 flex-wrap">
           <span className="text-xs" style={{ color: theme.text2 }}>
-            {formatBirthday(r.date)}
+            {formatDate(r.date)}
           </span>
           {r.tags && r.tags.length > 0 && (
             r.tags.map(t => <TagBadge key={t} tagId={t} onClick={() => navigate(`/tags?tag=${encodeURIComponent(t)}`)} />)

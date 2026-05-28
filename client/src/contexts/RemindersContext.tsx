@@ -1,7 +1,7 @@
 import { createContext, useContext } from 'react'
 import type { Reminder, Tag } from '@/types'
 
-export const DEMO_MODE_KEY = 'remindy-demo-mode'
+export const DEMO_MODE_KEY = 'demo-mode'
 
 export interface RemindersContextType {
   reminders: Reminder[]
