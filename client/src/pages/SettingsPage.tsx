@@ -10,6 +10,7 @@ export default function SettingsPage() {
   const { reminders, isDemoMode, setDemoMode, refresh } = useReminders()
   const { addToast } = useToast()
   const fileInputRef = React.useRef<HTMLInputElement>(null)
+  const [importing, setImporting] = React.useState(false)
 
   const handleExport = () => {
     const data = { reminders }
@@ -28,19 +29,23 @@ export default function SettingsPage() {
     if (!file) return
     const reader = new FileReader()
     reader.onload = async (event) => {
+      setImporting(true)
       try {
         const data = JSON.parse(event.target?.result as string)
         const entries: Array<{ name?: string; date?: string; icon?: string }> = data.reminders ?? []
+        let imported = 0
         for (const entry of entries) {
           if (entry.name && entry.date) {
             await api.createReminder({ name: entry.name, date: entry.date, icon: entry.icon })
+            imported++
           }
         }
         await refresh()
-        addToast(`Imported ${entries.length} ${entries.length === 1 ? 'entry' : 'entries'}`, 'success')
+        addToast(`Imported ${imported} ${imported === 1 ? 'reminder' : 'reminders'}`, 'success')
       } catch {
-        addToast('Invalid JSON file', 'error')
+        addToast('Failed to import — invalid or corrupt file', 'error')
       } finally {
+        setImporting(false)
         e.target.value = ''
       }
     }
@@ -92,10 +97,11 @@ export default function SettingsPage() {
           </Button>
           <Button
             type="button"
-            onClick={() => fileInputRef.current?.click()}
+            onClick={() => !importing && fileInputRef.current?.click()}
             leadingIcon={<UploadIcon />}
+            disabled={importing}
           >
-            Import backup
+            {importing ? 'Importing…' : 'Import backup'}
           </Button>
           <input ref={fileInputRef} type="file" accept=".json" className="hidden" onChange={handleImport} />
         </div>
